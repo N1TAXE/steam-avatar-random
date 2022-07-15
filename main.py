@@ -2,11 +2,26 @@ import requests
 import os
 import lxml
 import yaml
+from os.path import exists
 from yaml import Loader
 from bs4 import BeautifulSoup
 from random import randrange
 
-yaml_file = open('config.yaml', 'r')
+
+if not os.path.exists('config.yml'):
+    print("Enter SteamID64:")
+    sid = input()
+    print("Enter Steam Login Secure:")
+    sls = input()
+    configData = {
+        'steamid': int(sid),
+        'steamloginsecure': sls
+    }
+    with open('config.yml', 'w') as f:
+        yaml.dump(configData, f)
+
+
+yaml_file = open('config.yml', 'r')
 config = yaml.load(yaml_file, Loader=Loader)
 
 
