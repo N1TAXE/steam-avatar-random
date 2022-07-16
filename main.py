@@ -4,6 +4,7 @@ import lxml
 import yaml
 import sys
 from yaml import Loader
+from time import sleep
 from bs4 import BeautifulSoup
 from random import randrange
 
@@ -99,6 +100,7 @@ def setAvatar():
             input('Press Enter to exit')
     else:
         print("DONE!")
+        sleep(3)
     os.remove('ava.png')
 
 
