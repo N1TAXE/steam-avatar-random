@@ -1,2 +1,4 @@
 cat .gitignore
 config.yaml
+build
+dist

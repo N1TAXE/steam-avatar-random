@@ -102,7 +102,5 @@ def setAvatar():
     os.remove('ava.png')
 
 
-if __name__ == '__main__':
-    setAvatar()
-
+setAvatar()
 
