@@ -2,16 +2,37 @@ import requests
 import os
 import lxml
 import yaml
-from os.path import exists
+import sys
 from yaml import Loader
 from bs4 import BeautifulSoup
 from random import randrange
 
+ruLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
+engLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
+
+if not os.path.exists('lang.yml'):
+    print('Choose language / Выберите язык\n(ru/eng):')
+    lang = input()
+    configData = {
+        'language': lang.lower(),
+    }
+    with open('lang.yml', 'w') as f:
+        yaml.dump(configData, f)
+
+yaml_file = open('lang.yml', 'r')
+lang = yaml.load(yaml_file, Loader=Loader)['language']
+
+if lang == 'ru':
+    _sidEnter = 'Введите SteamID64:'
+    _slsEnter = f'Введите Steam Login Secure:\n(Где найти: {ruLink})'
+elif lang == 'eng':
+    _sidEnter = 'Enter SteamID64:'
+    _slsEnter = f'Enter Steam Login Secure:\n(How to get: {engLink})'
 
 if not os.path.exists('config.yml'):
-    print("Enter SteamID64:")
+    print(_sidEnter)
     sid = input()
-    print("Enter Steam Login Secure:")
+    print(_slsEnter)
     sls = input()
     configData = {
         'steamid': int(sid),
@@ -69,7 +90,15 @@ def getAvatar():
 def setAvatar():
     r = requests.post(url=url, params={'type': 'player_avatar_image', 'sId': id}, files={'avatar': getAvatar()}, data=data,
                   cookies=cookies)
-    print(r.text)
+    if "You've made too many requests recently" in r.text:
+        if lang == 'ru':
+            print('Аватарка не изменена, слишком много запросов, подождите немного и попробуйте еще раз!')
+            input('Нажмите Enter для выхода')
+        elif lang == 'eng':
+            print('Avatar not changed, too many requests, please wait and try again later!')
+            input('Press Enter to exit')
+    else:
+        print("DONE!")
     os.remove('ava.png')
 
 
