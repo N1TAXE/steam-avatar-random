@@ -2,3 +2,4 @@ cat .gitignore
 config.yaml
 build
 dist
+ico.ico
