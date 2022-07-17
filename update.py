@@ -14,14 +14,11 @@ with open('version.yml', 'w') as f:
     }
     yaml.dump(data, f)
 
-def getVersion():
-    r = requests.get('https://raw.githubusercontent.com/N1TAXE/steam-avatar-random/master/version.yml')
-    return yaml.load(r.text, Loader=Loader)['version']
 
-os.system(f'pyinstaller -F --onefile --icon=ico.ico --name "SRA_{getVersion()}" main.py')
+os.system(f'pyinstaller -F --onefile --icon=ico.ico --name "SRA_{sys.argv[1]}" main.py')
 
 with zipfile.ZipFile('dist/update.zip', 'w') as update:
-    update.write(f'dist/SRA_{getVersion()}.exe', basename(f'dist/SRA_{getVersion()}.exe'))
+    update.write(f'dist/SRA_{sys.argv[1]}.exe', basename(f'dist/SRA_{sys.argv[1]}.exe'))
 
 os.system(f'git commit -m "update v{sys.argv[1]}" update.py version.yml')
 os.system('git push')
