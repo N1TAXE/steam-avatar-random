@@ -8,7 +8,7 @@ from time import sleep
 from bs4 import BeautifulSoup
 from random import randrange
 
-version = '0.1'
+version = '1.0.0'
 
 ruLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
 engLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
@@ -28,9 +28,25 @@ lang = yaml.load(yaml_file, Loader=Loader)['language']
 if lang == 'ru':
     _sidEnter = 'Введите SteamID64:'
     _slsEnter = f'Введите Steam Login Secure:\n(Где найти: {ruLink})'
+    _updateText = 'Обновление приложения...'
 elif lang == 'eng':
     _sidEnter = 'Enter SteamID64:'
     _slsEnter = f'Enter Steam Login Secure:\n(How to get: {engLink})'
+    _updateText = 'Updating app...'
+else:
+    _updateText = 'Updating app...'
+
+
+def updateCheck():
+    r = requests.get('https://raw.githubusercontent.com/N1TAXE/steam-avatar-random/master/version.yml')
+    checkVersion = yaml.load(r.text, Loader=Loader)['version']
+    if str(checkVersion) > version:
+        print('Есть новая версия:' + str(checkVersion))
+        print('Обновление приложения...')
+    else:
+        print('Версия актуальная')
+
+
 
 if not os.path.exists('config.yml'):
     print(_sidEnter)
@@ -102,8 +118,9 @@ def setAvatar():
             input('Press Enter to exit')
     else:
         print("DONE!")
+        os.remove('ava.png')
         sleep(3)
-    os.remove('ava.png')
+
 
 
 setAvatar()
