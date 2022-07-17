@@ -15,7 +15,6 @@ try:
 except:
     pass
 
-version = '1.0.0'
 
 ruLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
 engLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
@@ -32,6 +31,20 @@ if not os.path.exists('lang.yml'):
 yaml_file = open('lang.yml', 'r')
 lang = yaml.load(yaml_file, Loader=Loader)['language']
 
+def getVersion():
+    r = requests.get('https://raw.githubusercontent.com/N1TAXE/steam-avatar-random/master/version.yml')
+    return yaml.load(r.text, Loader=Loader)['version']
+
+if not os.path.exists('ver.yml'):
+    verData = {
+        'version': getVersion(),
+    }
+    with open('ver.yml', 'w') as f:
+        yaml.dump(verData, f)
+
+yaml_file = open('ver.yml', 'r')
+version = yaml.load(yaml_file, Loader=Loader)['version']
+
 if lang == 'ru':
     _sidEnter = 'Введите SteamID64:'
     _slsEnter = f'Введите Steam Login Secure:\n(Где найти: {ruLink})'
@@ -45,10 +58,9 @@ else:
 
 
 def updateCheck():
-    r = requests.get('https://raw.githubusercontent.com/N1TAXE/steam-avatar-random/master/version.yml')
-    checkVersion = yaml.load(r.text, Loader=Loader)['version']
-    if str(checkVersion) > version:
-        print('Есть новая версия:' + str(checkVersion))
+
+    if getVersion() > version:
+        print('Есть новая версия:' + getVersion())
         print('Обновление приложения...')
 
         url = 'https://github.com/N1TAXE/steam-avatar-random/blob/master/dist/update.zip?raw=true'
@@ -58,6 +70,11 @@ def updateCheck():
         os.rename('SRA.exe', 'SRA_old.exe')
         os.rename('SRA_new.exe', 'SRA.exe')
         os.system("SRA.exe")
+        data = {
+            'version': getVersion()
+        }
+        with open('ver.yml', 'w') as f:
+            yaml.dump(data, f)
         exit()
 
     else:
