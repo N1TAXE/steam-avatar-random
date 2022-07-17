@@ -4,12 +4,16 @@ import lxml
 import yaml
 import sys
 import zipfile, io
+import subprocess
 from yaml import Loader
 from time import sleep
 from bs4 import BeautifulSoup
 from random import randrange
 
-
+try:
+    os.remove("SRA_old.exe")
+except:
+    pass
 
 ruLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
 engLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
@@ -64,14 +68,18 @@ def updateCheck():
         print('Распаковка')
         z.extractall("")
         os.rename('SRA.exe', 'SRA_old.exe')
-        os.rename(f'SRA_{getVersion()}', 'SRA.exe')
+        try:
+            os.rename(f'SRA_{getVersion()}.exe', 'SRA.exe')
+        except Exception as e:
+            print(e)
+            input('KEK')
         data = {
             'version': getVersion()
         }
         with open('ver.yml', 'w') as f:
             yaml.dump(data, f)
-        os.system("SRA.exe")
-        os.remove("SRA_old.exe")
+
+        subprocess.Popen('start cmd /C SRA.exe', shell=True)
         exit()
 
     else:
