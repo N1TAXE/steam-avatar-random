@@ -3,8 +3,7 @@ import os
 import lxml
 import yaml
 import sys
-import zipfile
-import urllib.request
+import zipfile, io
 from yaml import Loader
 from time import sleep
 from bs4 import BeautifulSoup
@@ -51,10 +50,14 @@ def updateCheck():
     if str(checkVersion) > version:
         print('Есть новая версия:' + str(checkVersion))
         print('Обновление приложения...')
-        url = 'https://github.com/N1TAXE/steam-avatar-random/blob/9e2fd1742fad91c0179b3e796d53d5f60933f586/dist/SRA.exe'
 
-        with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
-            zip_ref.extractall(directory_to_extract_to)
+        url = 'https://github.com/N1TAXE/steam-avatar-random/blob/32d2eea559f92ea4effecdd8864d9d8159bfec47/dist/SRA.zip?raw=true'
+        r = requests.get(url)
+        z = zipfile.ZipFile(io.BytesIO(r.content))
+        z.extractall("")
+        exit()
+
+
         os.rename('SRA.exe', 'SRA_old.exe')
         os.rename('SRA_new.exe', 'SRA.exe')
         os.system("SRA.exe")
