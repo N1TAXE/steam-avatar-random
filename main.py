@@ -9,11 +9,6 @@ from time import sleep
 from bs4 import BeautifulSoup
 from random import randrange
 
-if os.path.exists('SRA_old.exe'):
-    os.remove('SRA_old.exe')
-else:
-    pass
-
 ruLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
 engLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
 
@@ -78,7 +73,10 @@ def updateCheck():
 
     else:
         print('Версия актуальная')
-
+        if os.path.exists('SRA_old.exe'):
+            os.remove('SRA_old.exe')
+        else:
+            pass
 
 if not os.path.exists('config.yml'):
     print(_sidEnter)
