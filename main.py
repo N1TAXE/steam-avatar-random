@@ -8,6 +8,12 @@ from time import sleep
 from bs4 import BeautifulSoup
 from random import randrange
 
+
+try:
+    os.remove('SRA_old.exe')
+except:
+    pass
+
 version = '1.0.0'
 
 ruLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
@@ -43,16 +49,20 @@ def updateCheck():
     if str(checkVersion) > version:
         print('Есть новая версия:' + str(checkVersion))
         print('Обновление приложения...')
-        with requests.get('https://github.com/N1TAXE/steam-avatar-random/blob/9e2fd1742fad91c0179b3e796d53d5f60933f586/dist/SRA.exe', stream=True) as r:
+        with requests.get(
+                'https://github.com/N1TAXE/steam-avatar-random/blob/9e2fd1742fad91c0179b3e796d53d5f60933f586/dist/SRA.exe',
+                stream=True) as r:
             r.raise_for_status()
-            with open('SRA.exe', 'wb') as f:
+            with open('SRA_new.exe', 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
-                    os.system("SRA.exe")
-                    exit()
+            os.rename('SRA.exe', 'SRA_old.exe')
+            os.rename('SRA_new.exe', 'SRA.exe')
+            os.system("SRA.exe")
+            exit()
+
     else:
         print('Версия актуальная')
-
 
 
 if not os.path.exists('config.yml'):
@@ -67,19 +77,19 @@ if not os.path.exists('config.yml'):
     with open('config.yml', 'w') as f:
         yaml.dump(configData, f)
 
-
 yaml_file = open('config.yml', 'r')
 config = yaml.load(yaml_file, Loader=Loader)
-
 
 url = 'https://steamcommunity.com/actions/FileUploader'
 avatars = 'https://randomavatar.com/'
 id = config['steamid']
 
+
 def getCookies():
     session = requests.Session()
     session.get('http://steamcommunity.com/login/oxxyon')
     return session.cookies.get_dict()['sessionid']
+
 
 cook = getCookies()
 
@@ -115,8 +125,9 @@ def getAvatar():
 
 def setAvatar():
     updateCheck()
-    r = requests.post(url=url, params={'type': 'player_avatar_image', 'sId': id}, files={'avatar': getAvatar()}, data=data,
-                  cookies=cookies)
+    r = requests.post(url=url, params={'type': 'player_avatar_image', 'sId': id}, files={'avatar': getAvatar()},
+                      data=data,
+                      cookies=cookies)
     if "You've made too many requests recently" in r.text:
         if lang == 'ru':
             print('Аватарка не изменена, слишком много запросов, подождите немного и попробуйте еще раз!')
@@ -130,6 +141,4 @@ def setAvatar():
         sleep(1.5)
 
 
-
 setAvatar()
-
