@@ -55,9 +55,6 @@ def updateCheck():
         r = requests.get(url)
         z = zipfile.ZipFile(io.BytesIO(r.content))
         z.extractall("")
-        exit()
-
-
         os.rename('SRA.exe', 'SRA_old.exe')
         os.rename('SRA_new.exe', 'SRA.exe')
         os.system("SRA.exe")
