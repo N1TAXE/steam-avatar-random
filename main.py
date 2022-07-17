@@ -66,15 +66,21 @@ def updateCheck():
         url = 'https://github.com/N1TAXE/steam-avatar-random/blob/master/dist/update.zip?raw=true'
         r = requests.get(url)
         z = zipfile.ZipFile(io.BytesIO(r.content))
+        print('Распаковка')
         z.extractall("")
+        print('Переименовка SRA - SRA_old')
         os.rename('SRA.exe', 'SRA_old.exe')
+        print('Переименовка SRA_new - SRA')
         os.rename('SRA_new.exe', 'SRA.exe')
-        os.system("SRA.exe")
         data = {
             'version': getVersion()
         }
+        print('Обновление версии в файле')
         with open('ver.yml', 'w') as f:
             yaml.dump(data, f)
+        print('Закрытие')
+        print('Запуск SRA')
+        os.system("SRA.exe")
         exit()
 
     else:
