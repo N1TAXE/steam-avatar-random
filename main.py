@@ -43,6 +43,11 @@ def updateCheck():
     if str(checkVersion) > version:
         print('Есть новая версия:' + str(checkVersion))
         print('Обновление приложения...')
+        with requests.get('https://github.com/N1TAXE/steam-avatar-random/blob/9e2fd1742fad91c0179b3e796d53d5f60933f586/dist/SRA.exe', stream=True) as r:
+            r.raise_for_status()
+            with open('SRA.exe', 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
     else:
         print('Версия актуальная')
 
