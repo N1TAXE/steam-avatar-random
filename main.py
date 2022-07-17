@@ -10,11 +10,6 @@ from bs4 import BeautifulSoup
 from random import randrange
 
 
-try:
-    os.remove('SRA_old.exe')
-except:
-    pass
-
 
 ruLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
 engLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
@@ -68,19 +63,15 @@ def updateCheck():
         z = zipfile.ZipFile(io.BytesIO(r.content))
         print('Распаковка')
         z.extractall("")
-        print('Переименовка SRA - SRA_old')
         os.rename('SRA.exe', 'SRA_old.exe')
-        print('Переименовка SRA_new - SRA')
         os.rename('SRA_new.exe', 'SRA.exe')
         data = {
             'version': getVersion()
         }
-        print('Обновление версии в файле')
         with open('ver.yml', 'w') as f:
             yaml.dump(data, f)
-        print('Закрытие')
-        print('Запуск SRA')
         os.system("SRA.exe")
+        os.remove('SRA_old.exe')
         exit()
 
     else:
