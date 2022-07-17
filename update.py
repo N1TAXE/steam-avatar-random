@@ -1,9 +1,18 @@
 import os
 import requests
 import yaml
+import sys
 import zipfile
 from yaml import Loader
 from os.path import basename
+
+newversion = sys.argv
+
+with open('version.yml', 'w') as f:
+    data = {
+        'varsion': sys.argv[1]
+    }
+    yaml.dump(data, f)
 
 def getVersion():
     r = requests.get('https://raw.githubusercontent.com/N1TAXE/steam-avatar-random/master/version.yml')
