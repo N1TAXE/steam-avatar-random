@@ -3,6 +3,8 @@ import os
 import lxml
 import yaml
 import sys
+import zipfile
+import urllib.request
 from yaml import Loader
 from time import sleep
 from bs4 import BeautifulSoup
@@ -49,17 +51,14 @@ def updateCheck():
     if str(checkVersion) > version:
         print('Есть новая версия:' + str(checkVersion))
         print('Обновление приложения...')
-        with requests.get(
-                'https://github.com/N1TAXE/steam-avatar-random/blob/9e2fd1742fad91c0179b3e796d53d5f60933f586/dist/SRA.exe',
-                stream=True) as r:
-            r.raise_for_status()
-            with open('SRA_new.exe', 'wb') as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            os.rename('SRA.exe', 'SRA_old.exe')
-            os.rename('SRA_new.exe', 'SRA.exe')
-            os.system("SRA.exe")
-            exit()
+        url = 'https://github.com/N1TAXE/steam-avatar-random/blob/9e2fd1742fad91c0179b3e796d53d5f60933f586/dist/SRA.exe'
+
+        with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
+            zip_ref.extractall(directory_to_extract_to)
+        os.rename('SRA.exe', 'SRA_old.exe')
+        os.rename('SRA_new.exe', 'SRA.exe')
+        os.system("SRA.exe")
+        exit()
 
     else:
         print('Версия актуальная')
