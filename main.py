@@ -8,6 +8,8 @@ from time import sleep
 from bs4 import BeautifulSoup
 from random import randrange
 
+version = '0.1'
+
 ruLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
 engLink = 'https://rustic-salad-7e9.notion.site/SteamID64-SteamLoginSecure-64efe3b1b363406d81ccb59acec6a2f3'
 
