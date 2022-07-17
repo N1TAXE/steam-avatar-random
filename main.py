@@ -107,6 +107,7 @@ def getAvatar():
 
 
 def setAvatar():
+    updateCheck()
     r = requests.post(url=url, params={'type': 'player_avatar_image', 'sId': id}, files={'avatar': getAvatar()}, data=data,
                   cookies=cookies)
     if "You've made too many requests recently" in r.text:
@@ -119,7 +120,7 @@ def setAvatar():
     else:
         print("DONE!")
         os.remove('ava.png')
-        sleep(3)
+        sleep(1.5)
 
 
 
