@@ -10,7 +10,7 @@ newversion = sys.argv
 
 with open('version.yml', 'w') as f:
     data = {
-        'varsion': sys.argv[1]
+        'version': sys.argv[1]
     }
     yaml.dump(data, f)
 
@@ -22,3 +22,6 @@ os.system(f'pyinstaller -F --onefile --icon=ico.ico --name "SRA_{getVersion()}" 
 
 with zipfile.ZipFile('dist/update.zip', 'w') as update:
     update.write(f'dist/SRA_{getVersion()}.exe', basename(f'dist/SRA_{getVersion()}.exe'))
+
+os.system(f'git commit -m "update v{sys.argv[1]}" update.py version.yml')
+os.system('git push')
