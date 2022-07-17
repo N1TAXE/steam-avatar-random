@@ -51,7 +51,7 @@ def updateCheck():
         print('Есть новая версия:' + str(checkVersion))
         print('Обновление приложения...')
 
-        url = 'https://github.com/N1TAXE/steam-avatar-random/blob/32d2eea559f92ea4effecdd8864d9d8159bfec47/dist/update.zip?raw=true'
+        url = 'https://github.com/N1TAXE/steam-avatar-random/blob/master/dist/update.zip?raw=true'
         r = requests.get(url)
         z = zipfile.ZipFile(io.BytesIO(r.content))
         z.extractall("")
