@@ -20,5 +20,5 @@ os.system(f'pyinstaller -F --onefile --icon=ico.ico --name "SRA_{sys.argv[1]}" m
 with zipfile.ZipFile('dist/update.zip', 'w') as update:
     update.write(f'dist/SRA_{sys.argv[1]}.exe', basename(f'dist/SRA_{sys.argv[1]}.exe'))
 
-os.system(f'git commit -m "update v{sys.argv[1]}" update.py version.yml')
+os.system(f'git commit -m "update v{sys.argv[1]}" dist/update.zip version.yml')
 os.system('git push')

@@ -64,7 +64,7 @@ def updateCheck():
         print('Распаковка')
         z.extractall("")
         os.rename('SRA.exe', 'SRA_old.exe')
-        os.rename('SRA_new.exe', 'SRA.exe')
+        os.rename(f'SRA_{getVersion()}', 'SRA.exe')
         data = {
             'version': getVersion()
         }
